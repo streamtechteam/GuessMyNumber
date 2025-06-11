@@ -1,17 +1,18 @@
-const guessedNumber = document.getElementById("guessedNumber");
-const guessButton = document.getElementById("guessButton");
-const title = document.getElementById("title");
-const container = document.getElementById("container");
 
+// variables
 let correctNumber = Math.floor(Math.random() * 100) + 1;
 let health = 100;
 let score = 100;
 
+//preconfig for showing welcome page
 if (!localStorage.getItem("welcomePage")) {
     localStorage.setItem("welcomePage", "true")
 }
 
+//check if welcome page variable does exist in local storage
 if (localStorage.getItem("welcomePage")) {
+    
+    //check if welcome page shown before or not
     if (localStorage.getItem("welcomePage") == "true") {
         Swal.fire({
             title: "Welcome to Guess My Number",
@@ -23,6 +24,7 @@ if (localStorage.getItem("welcomePage")) {
                 Swal.showLoading();
             }
         }).then(result => {
+            //after the popup is closed, it will redirect to the game page and welcome page variable will be set to false
             localStorage.setItem("welcomePage", "false")
         })
     }
@@ -32,8 +34,10 @@ if (localStorage.getItem("welcomePage")) {
 
 
 
-
+//this function is called when the guess button is clicked
 function checkGuess(guess) {
+
+    //checks if the guesss is in the range of 1 and 100
     if (guess > 100 || guess < 1) {
         Swal.fire({
             title: "Invalid Input",
@@ -43,6 +47,8 @@ function checkGuess(guess) {
         })
         return false;
     }
+
+    //checks if the guess is correct
     if (guess == correctNumber) {
         Swal.fire({
             title: "Correct!",
@@ -68,7 +74,10 @@ function checkGuess(guess) {
         correctNumber = Math.floor(Math.random() * 100) + 1;
         return false;
     }
+
+    //checks if the guess is lower
     else if (guess < correctNumber) {
+
         Swal.fire({
             title: "Too Low!",
             html: `
@@ -87,6 +96,8 @@ function checkGuess(guess) {
         health -= 15;
         return false;
     }
+
+    //checks if the guess is higher
     else if (guess > correctNumber) {
         Swal.fire({
             title: "Too High!",
